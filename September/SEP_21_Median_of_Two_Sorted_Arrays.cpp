@@ -26,3 +26,45 @@ public:
         return merged[merged.size()/2];
     }
 };
+
+
+
+//constant space solution
+class Solution {
+public:
+    double findMedianSortedArrays(vector<int>& nums1, vector<int>& nums2) {
+        int n = nums1.size(), m = nums2.size();
+        int i = 0, j = 0, k = 0;
+        double curr = 0, prev;
+
+        while(i < n && j < m && k <= (m+n)/2){
+            if(nums1[i] < nums2[j]){
+                prev = curr;
+                curr = nums1[i++];
+            }
+            else{
+                prev = curr;
+                curr = nums2[j++];
+            }
+            k++;
+        }
+
+        while(i < n && k <= (m+n)/2){
+            prev = curr;
+            curr = nums1[i++];
+            k++;
+        }
+        while(j < m && k <= (m+n)/2){
+            prev = curr;
+            curr = nums2[j++];
+            k++;
+        }
+
+        if((m+n) % 2 == 0){
+            return (prev + curr) / 2.0;
+        }
+        else{
+            return curr;
+        }
+    }
+};
